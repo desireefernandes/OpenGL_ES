@@ -4,8 +4,6 @@ import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 
-import java.nio.FloatBuffer;
-
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
@@ -25,24 +23,33 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
                 new float[]{
                         // X, Y, Z,
                         // R, G, B, A
-                        -0.5f, -0.5f, 0.0f,
-                        1.0f, 1.0f, 0.0f, 1.0f,
+                       -0.5f, -0.5f, 0.0f,
+                        1.0f,  0.0f, 0.0f, 1.0f,
 
                         0.5f, -0.5f, 0.0f,
-                        0.0f, 1.0f, 1.0f, 1.0f,
+                        0.0f,  1.0f, 0.0f, 1.0f,
 
-                        0.5f, 0.5f, 0.0f,
-                        1.0f, 0.0f, 1.0f, 1.0f
-                }
-        );
+                        0.5f,  0.5f, 0.0f,
+                        0.0f,  0.0f, 1.0f, 1.0f,
+
+                        0.5f,  0.5f, 0.0f,
+                        0.0f,  0.0f, 1.0f, 1.0f,
+
+                       -0.5f,  0.5f, 0.0f,
+                        1.0f,  0.0f, 1.0f, 1.0f,
+
+                       -0.5f, -0.5f, 0.0f,
+                        1.0f,  0.0f, 0.0f, 1.0f});
 
     }
 
     public void onDrawFrame(GL10 unused) {
-        GLES20.glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
+        GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 
         float[] scratch = new float[16];
+
+        //Para movimentar sem o evento de toque
 
         //long time = SystemClock.uptimeMillis() % 4000L;
         //float angle = 0.090f * ((int) time);
@@ -64,16 +71,6 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
         Matrix.frustumM(projectionMatrix, 0, -ratio, ratio, -1, 1, 3, 7);
 
-    }
-
-    public static int loadShader(int type, String shaderCode) {
-
-        int shader = GLES20.glCreateShader(type);
-
-        GLES20.glShaderSource(shader, shaderCode);
-        GLES20.glCompileShader(shader);
-
-        return shader;
     }
 
     public float getAngle() {
