@@ -26,17 +26,14 @@ public class Shape {
     private int perVertexProgramHandle;
     private int pointProgramHandle;
 
-    private void setCubePositionData(float[] cubePositionData) {
-    }
-    private void setCubeColorData(float[] cubeColorData) {
-    }
-    private void setCubeNormalData(float[] cubeNormalData) {
-    }
+    private void setCubePositionData(){}
+    private void setCubeColorData() {}
+    private void setCubeNormalData() {}
 
     public Shape(float[] cubePositionData, float[] cubeColorData, float[] cubeNormalData){
-        this.setCubePositionData(cubePositionData);
-        this.setCubeColorData(cubeColorData);
-        this.setCubeNormalData(cubeNormalData);
+        this.setCubePositionData();
+        this.setCubeColorData();
+        this.setCubeNormalData();
 
         final String vertexShader = getVertexShader();
         final String fragmentShader = getFragmentShader();
@@ -50,8 +47,7 @@ public class Shape {
         final String pointVertexShader =
                           "uniform mat4 u_MVPMatrix;      \n"
                         + "attribute vec4 a_Position;     \n"
-                        + "void main()                    \n"
-                        + "{                              \n"
+                        + "void main() {                  \n"
                         + "   gl_Position = u_MVPMatrix   \n"
                         + "               * a_Position;   \n"
                         + "   gl_PointSize = 5.0;         \n"
@@ -59,8 +55,7 @@ public class Shape {
 
         final String pointFragmentShader =
                           "precision mediump float;       \n"
-                        + "void main()                    \n"
-                        + "{                              \n"
+                        + "void main() {                  \n"
                         + "   gl_FragColor = vec4(1.0,    \n"
                         + "   1.0, 1.0, 1.0);             \n"
                         + "}                              \n";
@@ -100,7 +95,7 @@ public class Shape {
                         + "void main() {                                              \n"
                         + "   v_Position = vec3(u_MVMatrix * a_Position);             \n"
                         + "   v_Color = a_Color;                                      \n"
-                        + "   v_Normal = vec3(u_MVMatrix * vec4(a_Normal, -0.1));     \n"
+                        + "   v_Normal = vec3(u_MVMatrix * vec4(a_Normal, 0.0));     \n"
                         + "   gl_Position = u_MVPMatrix * a_Position;                 \n"
                         + "}                                                          \n";
 
@@ -155,6 +150,8 @@ public class Shape {
                 0, cubeNormalsBuffer);
         cubeNormalsBuffer.position(0);
 
+        lightPosHandle = GLES20.glGetUniformLocation(perVertexProgramHandle, "u_LightPos");
+
         mVPMatrixHandle = GLES20.glGetUniformLocation(perVertexProgramHandle, "u_MVPMatrix");
 
         mVMatrixHandle = GLES20.glGetUniformLocation(perVertexProgramHandle, "u_MVMatrix");
@@ -170,13 +167,11 @@ public class Shape {
     public void drawLight(float[] mMVPMatrix, float[] lightPosInModelSpace){
         GLES20.glUseProgram(pointProgramHandle);
 
-        lightPosHandle = GLES20.glGetUniformLocation(pointProgramHandle, "u_LightPos");
-
         final int pointMVPMatrixHandle = GLES20.glGetUniformLocation(pointProgramHandle, "u_MVPMatrix");
-        GLES20.glUniformMatrix4fv(pointMVPMatrixHandle, 1, false, mMVPMatrix, 0);
-
         final int pointPositionHandle = GLES20.glGetAttribLocation(pointProgramHandle, "a_Position");
+
         GLES20.glVertexAttrib3f(pointPositionHandle, lightPosInModelSpace[0], lightPosInModelSpace[1], lightPosInModelSpace[2]);
+        GLES20.glUniformMatrix4fv(pointMVPMatrixHandle, 1, false, mMVPMatrix, 0);
 
         GLES20.glDrawArrays(GLES20.GL_POINTS, 0, 1);
         GLES20.glDisableVertexAttribArray(pointPositionHandle);

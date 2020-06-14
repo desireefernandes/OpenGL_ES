@@ -255,7 +255,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         // Draw light
         Matrix.setIdentityM(lightModelMatrix, 0);
         Matrix.translateM(lightModelMatrix, 0, 0.0f, 0.0f, -5.0f);
-        Matrix.rotateM(lightModelMatrix, 0, angleInDegrees, 0.0f, -1.0f, 0.0f);
+        Matrix.rotateM(lightModelMatrix, 0, angleInDegrees, 0.0f, 1.0f, 0.0f);
         Matrix.translateM(lightModelMatrix, 0, 0.0f, -1.0f, 1.0f);
 
         Matrix.multiplyMV(lightPosInWorldSpace, 0, lightModelMatrix, 0, lightPosInModelSpace, 0);

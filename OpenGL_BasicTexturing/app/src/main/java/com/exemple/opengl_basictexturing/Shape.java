@@ -103,11 +103,10 @@ public class Shape {
     }
 
     public void draw(float[] mVPMatrix, float[] lightPosInEyeSpace){
+        GLES20.glEnable(GLES20.GL_CULL_FACE);
+        GLES20.glEnable(GLES20.GL_DEPTH_TEST);
+
         GLES20.glUseProgram(mProgramHandle);
-
-        mVPMatrixHandle = GLES20.glGetUniformLocation(mProgramHandle, "u_MVPMatrix");
-
-        mVMatrixHandle = GLES20.glGetUniformLocation(mProgramHandle, "u_MVMatrix");
 
         mPositionHandle = GLES20.glGetAttribLocation(mProgramHandle, "a_Position");
         GLES20.glEnableVertexAttribArray(mPositionHandle);
@@ -136,6 +135,12 @@ public class Shape {
                 GLES20.GL_FLOAT, false,
                 0, cubeTextureCoordinatesBuffer);
 
+        mVPMatrixHandle = GLES20.glGetUniformLocation(mProgramHandle, "u_MVPMatrix");
+
+        mVMatrixHandle = GLES20.glGetUniformLocation(mProgramHandle, "u_MVMatrix");
+
+        lightPosHandle = GLES20.glGetUniformLocation(mProgramHandle, "u_LightPos");
+
         textureUniformHandle = GLES20.glGetUniformLocation(mProgramHandle, "u_Texture");
 
         textureCoordinateHandle = GLES20.glGetAttribLocation(mProgramHandle, "a_TexCoordinate");
@@ -143,9 +148,6 @@ public class Shape {
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureDataHandle);
         GLES20.glUniform1i(textureUniformHandle, 0);
-
-        GLES20.glEnable(GLES20.GL_CULL_FACE);
-        GLES20.glEnable(GLES20.GL_DEPTH_TEST);
 
         GLES20.glUniformMatrix4fv(mVMatrixHandle, 1, false, mVPMatrix, 0);
         GLES20.glUniformMatrix4fv(mVPMatrixHandle, 1, false, mVPMatrix, 0);
@@ -158,16 +160,15 @@ public class Shape {
     public void drawLight(float[] mMVPMatrix, float[] lightPosInModelSpace){
         GLES20.glUseProgram(pointProgramHandle);
 
-        lightPosHandle = GLES20.glGetUniformLocation(pointProgramHandle, "u_LightPos");
-
         final int pointMVPMatrixHandle = GLES20.glGetUniformLocation(pointProgramHandle, "u_MVPMatrix");
-        GLES20.glUniformMatrix4fv(pointMVPMatrixHandle, 1, false, mMVPMatrix, 0);
-
         final int pointPositionHandle = GLES20.glGetAttribLocation(pointProgramHandle, "a_Position");
+
         GLES20.glVertexAttrib3f(pointPositionHandle, lightPosInModelSpace[0], lightPosInModelSpace[1], lightPosInModelSpace[2]);
+        GLES20.glUniformMatrix4fv(pointMVPMatrixHandle, 1, false, mMVPMatrix, 0);
 
         GLES20.glDrawArrays(GLES20.GL_POINTS, 0, 1);
         GLES20.glDisableVertexAttribArray(pointPositionHandle);
+
     }
 
 }
