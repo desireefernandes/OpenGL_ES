@@ -48,8 +48,8 @@ public class Shape {
                 new String[] {"a_Position",  "a_Color", "a_Normal"});
 
         final String pointVertexShader =
-                "uniform mat4 u_MVPMatrix;      \n"
-                        +	"attribute vec4 a_Position;     \n"
+                          "uniform mat4 u_MVPMatrix;      \n"
+                        + "attribute vec4 a_Position;     \n"
                         + "void main()                    \n"
                         + "{                              \n"
                         + "   gl_Position = u_MVPMatrix   \n"
@@ -58,7 +58,7 @@ public class Shape {
                         + "}                              \n";
 
         final String pointFragmentShader =
-                "precision mediump float;       \n"
+                          "precision mediump float;       \n"
                         + "void main()                    \n"
                         + "{                              \n"
                         + "   gl_FragColor = vec4(1.0,    \n"
@@ -86,7 +86,7 @@ public class Shape {
 
     protected String getVertexShader() {
         final String perPixelVertexShader =
-                "uniform mat4 u_MVPMatrix;      \n"
+                          "uniform mat4 u_MVPMatrix;      \n"
                         + "uniform mat4 u_MVMatrix;       \n"
 
                         + "attribute vec4 a_Position;     \n"
@@ -97,15 +97,10 @@ public class Shape {
                         + "varying vec4 v_Color;          \n"
                         + "varying vec3 v_Normal;         \n"
 
-                        + "void main()                                                \n"
-                        + "{                                                          \n"
-
+                        + "void main() {                                              \n"
                         + "   v_Position = vec3(u_MVMatrix * a_Position);             \n"
-
                         + "   v_Color = a_Color;                                      \n"
-
-                        + "   v_Normal = vec3(u_MVMatrix * vec4(a_Normal, 0.0));      \n"
-
+                        + "   v_Normal = vec3(u_MVMatrix * vec4(a_Normal, -0.1));     \n"
                         + "   gl_Position = u_MVPMatrix * a_Position;                 \n"
                         + "}                                                          \n";
 
@@ -114,35 +109,30 @@ public class Shape {
 
     protected String getFragmentShader() {
         final String perPixelFragmentShader =
-                "precision mediump float;       \n"
+                         "precision mediump float;        \n"
 
                         + "uniform vec3 u_LightPos;       \n"
 
-                        + "varying vec3 v_Position;		\n"
+                        + "varying vec3 v_Position;	      \n"
                         + "varying vec4 v_Color;          \n"
                         + "varying vec3 v_Normal;         \n"
 
-                        + "void main()                    \n"
-                        + "{                              \n"
-                        + "   float distance = length(u_LightPos - v_Position);                  \n"
-
-                        + "   vec3 lightVector = normalize(u_LightPos - v_Position);             \n"
-
-                        + "   float diffuse = max(dot(v_Normal, lightVector), 0.1);              \n"
-                        + "   diffuse = diffuse * (1.0 / (1.0 + (0.25 * distance * distance)));  \n"
-
-                        + "   gl_FragColor = v_Color * diffuse;                                  \n"
-                        + "}                                                                     \n";
+                        + "   void main() {                                                       \n"
+                        + "   float distance = length(u_LightPos - v_Position);                   \n"
+                        + "   vec3 lightVector = normalize(u_LightPos - v_Position);              \n"
+                        + "   float diffuse = max(dot(v_Normal, lightVector), 0.0);               \n"
+                        + "   diffuse = diffuse * (1.0 / (1.0 + (0.25 * distance * distance)));   \n"
+                        + "   gl_FragColor = v_Color * diffuse;                                   \n"
+                        + "}                                                                      \n";
 
         return perPixelFragmentShader;
     }
 
     public void draw(float[] mVPMatrix, float[] lightPosInEyeSpace){
+        GLES20.glEnable(GLES20.GL_CULL_FACE);
+        GLES20.glEnable(GLES20.GL_DEPTH_TEST);
+
         GLES20.glUseProgram(perVertexProgramHandle);
-
-        mVPMatrixHandle = GLES20.glGetUniformLocation(perVertexProgramHandle, "u_MVPMatrix");
-
-        mVMatrixHandle = GLES20.glGetUniformLocation(perVertexProgramHandle, "u_MVMatrix");
 
         mPositionHandle = GLES20.glGetAttribLocation(perVertexProgramHandle, "a_Position");
         GLES20.glEnableVertexAttribArray(mPositionHandle);
@@ -165,8 +155,9 @@ public class Shape {
                 0, cubeNormalsBuffer);
         cubeNormalsBuffer.position(0);
 
-        GLES20.glEnable(GLES20.GL_CULL_FACE);
-        GLES20.glEnable(GLES20.GL_DEPTH_TEST);
+        mVPMatrixHandle = GLES20.glGetUniformLocation(perVertexProgramHandle, "u_MVPMatrix");
+
+        mVMatrixHandle = GLES20.glGetUniformLocation(perVertexProgramHandle, "u_MVMatrix");
 
         GLES20.glUniformMatrix4fv(mVMatrixHandle, 1, false, mVPMatrix, 0);
         GLES20.glUniformMatrix4fv(mVPMatrixHandle, 1, false, mVPMatrix, 0);
