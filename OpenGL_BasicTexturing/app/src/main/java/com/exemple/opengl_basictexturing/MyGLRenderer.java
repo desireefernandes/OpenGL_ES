@@ -252,28 +252,29 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
         Matrix.setLookAtM(viewMatrix, 0, eyeX, eyeY, eyeZ, lookX, lookY, lookZ, upX, upY, upZ);
 
+        // Draw light
         Matrix.setIdentityM(lightModelMatrix, 0);
         Matrix.translateM(lightModelMatrix, 0, 0.0f, 0.0f, -5.0f);
-        Matrix.rotateM(lightModelMatrix, 0, angleInDegrees, 0.0f, 1.0f, 0.0f);
-        Matrix.translateM(lightModelMatrix, 0, 0.0f, 0.0f, 2.0f);
+        Matrix.rotateM(lightModelMatrix, 0, angleInDegrees, 0.0f, -1.0f, 0.0f);
+        Matrix.translateM(lightModelMatrix, 0, 0.0f, -1.0f, 1.0f);
 
         Matrix.multiplyMV(lightPosInWorldSpace, 0, lightModelMatrix, 0, lightPosInModelSpace, 0);
         Matrix.multiplyMV(lightPosInEyeSpace, 0, viewMatrix, 0, lightPosInWorldSpace, 0);
 
-        Matrix.multiplyMM(mVPMatrix, 0, viewMatrix, 0, modelMatrix, 0);
+        Matrix.multiplyMM(mVPMatrix, 0, viewMatrix, 0, lightModelMatrix, 0);
         Matrix.multiplyMM(mVPMatrix, 0, projectionMatrix, 0, mVPMatrix, 0);
+
+        mShape.drawLight(mVPMatrix, lightPosInModelSpace);
 
         // Draw cube
         Matrix.setIdentityM(modelMatrix, 0);
         Matrix.translateM(modelMatrix, 0, 0.0f, 0.0f, -5.0f);
         Matrix.rotateM(modelMatrix, 0, angleInDegrees, 1.0f, 1.0f, 0.0f);
+
+        Matrix.multiplyMM(mVPMatrix, 0, viewMatrix, 0, modelMatrix, 0);
+        Matrix.multiplyMM(mVPMatrix, 0, projectionMatrix, 0, mVPMatrix, 0);
+
         mShape.draw(mVPMatrix, lightPosInEyeSpace);
-
-        //Matrix.multiplyMM(mVPMatrix, 0, viewMatrix, 0, lightModelMatrix, 0);
-        //Matrix.multiplyMM(mVPMatrix, 0, projectionMatrix, 0, mVPMatrix, 0);
-
-        // Draw light
-        mShape.drawLight(mVPMatrix, lightPosInModelSpace);
 
     }
 

@@ -11,14 +11,10 @@ varying vec4 v_Color;
 varying vec3 v_Normal;
 varying vec2 v_TexCoordinate;
 
-void main()
-{
+void main() {
 	v_Position = vec3(u_MVMatrix * a_Position);
-
 	v_Color = a_Color;
-
 	v_TexCoordinate = a_TexCoordinate;
-
     v_Normal = vec3(u_MVMatrix * vec4(a_Normal, 0.0));
 
 	gl_Position = u_MVPMatrix * a_Position;
