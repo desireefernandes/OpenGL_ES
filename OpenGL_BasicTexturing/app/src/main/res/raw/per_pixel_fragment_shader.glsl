@@ -2,6 +2,7 @@ precision mediump float;
 
 uniform vec3 u_LightPos;
 uniform sampler2D u_Texture;
+
 varying vec3 v_Position;
 varying vec4 v_Color;
 

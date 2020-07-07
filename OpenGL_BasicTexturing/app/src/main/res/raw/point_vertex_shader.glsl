@@ -3,5 +3,5 @@ attribute vec4 a_Position;
 
 void main() {
 	gl_Position = u_MVPMatrix * a_Position;
-    gl_PointSize = 5.0;
+    gl_PointSize = 8.0;
 }
