@@ -50,7 +50,7 @@ public class Shape {
                         + "void main() {                  \n"
                         + "   gl_Position = u_MVPMatrix   \n"
                         + "               * a_Position;   \n"
-                        + "   gl_PointSize = 5.0;         \n"
+                        + "   gl_PointSize = 8.0;         \n"
                         + "}                              \n";
 
         final String pointFragmentShader =
@@ -117,6 +117,7 @@ public class Shape {
                         + "   vec3 lightVector = normalize(u_LightPos - v_Position);              \n"
                         + "   float diffuse = max(dot(v_Normal, lightVector), 0.0);               \n"
                         + "   diffuse = diffuse * (1.0 / (1.0 + (0.25 * distance * distance)));   \n"
+                        + "   diffuse = diffuse + 0.8;                                            \n"
                         + "   gl_FragColor = v_Color * diffuse;                                   \n"
                         + "}                                                                      \n";
 
