@@ -29,7 +29,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
         mShape = new Shape(
-                new float[]{
+                new float[]{ //Coordenadas
                         // Front face
                        -1.0f,  1.0f, 1.0f,
                        -1.0f, -1.0f, 1.0f,
@@ -78,56 +78,56 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
                        -1.0f, -1.0f,  1.0f,
                        -1.0f, -1.0f, -1.0f},
 
-                new float[]{
+                new float[]{ //Colors
                         // Front face
+                        0.0f, 0.0f, 1.0f, 1.0f,
+                        1.0f, 0.0f, 1.0f, 1.0f,
+                        0.0f, 1.0f, 1.0f, 1.0f,
                         1.0f, 0.0f, 1.0f, 1.0f,
                         1.0f, 0.0f, 0.0f, 1.0f,
-                        0.0f, 0.0f, 1.0f, 1.0f,
-                        1.0f, 0.0f, 0.0f, 1.0f,
-                        0.0f, 1.0f, 0.0f, 1.0f,
-                        0.0f, 0.0f, 1.0f, 1.0f,
+                        0.0f, 1.0f, 1.0f, 1.0f,
 
                         // Right face
-                        1.0f, 0.0f, 1.0f, 1.0f,
+                        0.0f, 1.0f, 1.0f, 1.0f,
                         1.0f, 0.0f, 0.0f, 1.0f,
-                        0.0f, 0.0f, 1.0f, 1.0f,
+                        1.0f, 1.0f, 0.0f, 1.0f,
                         1.0f, 0.0f, 0.0f, 1.0f,
-                        0.0f, 1.0f, 0.0f, 1.0f,
-                        0.0f, 0.0f, 1.0f, 1.0f,
+                        1.0f, 0.0f, 0.0f, 1.0f,
+                        1.0f, 1.0f, 0.0f, 1.0f,
 
                         // Back face
-                        1.0f, 0.0f, 1.0f, 1.0f,
-                        1.0f, 0.0f, 0.0f, 1.0f,
-                        0.0f, 0.0f, 1.0f, 1.0f,
+                        1.0f, 1.0f, 0.0f, 1.0f,
                         1.0f, 0.0f, 0.0f, 1.0f,
                         0.0f, 1.0f, 0.0f, 1.0f,
-                        0.0f, 0.0f, 1.0f, 1.0f,
+                        1.0f, 0.0f, 0.0f, 1.0f,
+                        1.0f, 0.0f, 1.0f, 1.0f,
+                        0.0f, 1.0f, 0.0f, 1.0f,
 
                         // Left face
-                        1.0f, 0.0f, 1.0f, 1.0f,
-                        1.0f, 0.0f, 0.0f, 1.0f,
-                        0.0f, 0.0f, 1.0f, 1.0f,
-                        1.0f, 0.0f, 0.0f, 1.0f,
                         0.0f, 1.0f, 0.0f, 1.0f,
+                        1.0f, 0.0f, 1.0f, 1.0f,
+                        0.0f, 0.0f, 1.0f, 1.0f,
+                        1.0f, 0.0f, 1.0f, 1.0f,
+                        1.0f, 0.0f, 1.0f, 1.0f,
                         0.0f, 0.0f, 1.0f, 1.0f,
 
                         // Top face
-                        1.0f, 0.0f, 1.0f, 1.0f,
-                        1.0f, 0.0f, 0.0f, 1.0f,
-                        0.0f, 0.0f, 1.0f, 1.0f,
-                        1.0f, 0.0f, 0.0f, 1.0f,
                         0.0f, 1.0f, 0.0f, 1.0f,
                         0.0f, 0.0f, 1.0f, 1.0f,
+                        1.0f, 1.0f, 0.0f, 1.0f,
+                        0.0f, 0.0f, 1.0f, 1.0f,
+                        0.0f, 1.0f, 1.0f, 1.0f,
+                        1.0f, 1.0f, 0.0f, 1.0f,
 
                         // Bottom face
+                        1.0f, 0.0f, 0.0f, 1.0f,
+                        1.0f, 0.0f, 0.0f, 1.0f,
                         1.0f, 0.0f, 1.0f, 1.0f,
                         1.0f, 0.0f, 0.0f, 1.0f,
-                        0.0f, 0.0f, 1.0f, 1.0f,
-                        1.0f, 0.0f, 0.0f, 1.0f,
-                        0.0f, 1.0f, 0.0f, 1.0f,
-                        0.0f, 0.0f, 1.0f, 1.0f},
+                        1.0f, 0.0f, 1.0f, 1.0f,
+                        1.0f, 0.0f, 1.0f, 1.0f},
 
-                new float[]{
+                new float[]{ //Normal
                         // Front face
                         0.0f, 0.0f, 1.0f,
                         0.0f, 0.0f, 1.0f,
